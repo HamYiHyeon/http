@@ -1,0 +1,132 @@
+<!DOCTYPE html> 
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>inventory</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #zoom {
+            display: none;
+        }
+        #zo {
+            display: block;
+            position: relative;
+            background: rgba(255, 255, 255, 0.5);
+            top: 100px;
+            width: 500px;
+            height: 500px;
+            cursor: pointer;
+            margin: auto;
+            z-index: 10;
+        }
+        #screen {
+            height: 100vh;
+            width: 100vw;
+            background: url(https://cdn.thehousemagazine.kr/thehousemagazine/2023/11/09210808/2-13-scaled.jpg);
+            background-repeat: no-repeat;   
+            background-size: cover;
+        }
+        #itembox {
+            width: 105px;
+            height: 700px;
+            min-height: 62px;
+            float: left;
+            background: rgba(100, 100, 100, 0.7);
+        }
+        .object {
+            width: 25px;
+            height: 25px;
+            position: absolute;
+            cursor: pointer;
+            z-index: 1;
+        }
+        .item{
+            cursor: pointer;
+        }
+        #key{
+            left: 500px;
+            top: 50px;
+        }
+        #cursor{
+            left: 650px;
+            top: 200px;
+        }
+        #ghost{
+            left: 850px;
+            top: 550px;
+        }
+        #cursor1{
+            left: 400px;
+            top: 450px;
+        }
+        #password{
+            left: 100px;
+            top: 100px;
+        }
+    </style>
+
+    <script>
+        function ItemInsert(obj) {
+            let bool = true;
+            let newItem = document.createElement("img");
+            newItem.src = obj.src;
+
+            newItem.className="item"
+            newItem.id=obj.id
+            if(newItem.id != "ghost") newItem.onclick = function() {alert(obj.alt);};
+            else newItem.onclick = function() {
+                zo.src = newItem.src;
+                zoom.style.display = "block";
+            }
+            document.getElementById("itembox").appendChild(newItem);
+            obj.style.display = 'none'
+        }
+        function Unlock(lock) {
+            let unlock = false
+            let items = document.getElementsByClassName("item");
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].id == "key") {
+                    unlock = true
+                    items[i].style.display = 'none'
+                    break;
+                }
+            }
+            if(unlock) {
+                lock.style.display = 'none';
+                lock.src = "자물쇠_열림.svg";
+
+            } 
+            zo.src = lock.src; 
+            zoom.style.display = "block";
+        }
+        function Nonedisplay() {
+            zoom.style.display = "none";
+        }
+    </script>
+</head>
+<body>
+    <article id="screen" style="margin-left: auto; margin-right: auto; display: block;">
+        <ol id="itembox"></ol>
+        <div id="div1">
+            <img class="object" id="key" src="그림3.png"
+            alt="열쇠 입니다" onclick="ItemInsert(this)">
+            <img class="object" id="cursor" src="그림4.svg"
+            alt="커서 입니다" onclick="ItemInsert(this)">
+            <img class="object" id="ghost" src="그림5.svg"
+            alt="유령 입니다" onclick="ItemInsert(this)">
+            <img class="object" id="cursor1" src="그림4.svg"
+            alt="커서1 입니다" onclick="ItemInsert(this)">
+            <img class="object" id="password" src="자물쇠_잠금.svg"
+            alt="자물쇠" onclick="Unlock(this)">
+        </div>
+        <div id='zoom' style="text-align: center;">
+            <img id='zo' src="" onclick="Nonedisplay()">
+        </div>
+    </article>
+</body>
+</html>
