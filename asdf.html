@@ -17,67 +17,121 @@
             display: block;
             position: relative;
             background: rgba(255, 255, 255, 0.5);
-            top: 100px;
-            width: 500px;
-            height: 500px;
+            top: 15vh;
+            width: 30vw;
+            height: 30vw;
             cursor: pointer;
             margin: auto;
             z-index: 10;
         }
-        #screen {
+        #screen1 {
             height: 100vh;
             width: 100vw;
-            background: url(https://cdn.thehousemagazine.kr/thehousemagazine/2023/11/09210808/2-13-scaled.jpg);
+            background: url("기숙사방.png");
+            background-repeat: no-repeat;   
+            background-size: cover;
+        }
+        #screen2 {
+            height: 100vh;
+            width: 100vw;
+            background: url("복도.png");
+            background-repeat: no-repeat;   
+            background-size: cover;
+        }
+        #screen3 {
+            height: 100vh;
+            width: 100vw;
+            background: url("세탁실.png");
             background-repeat: no-repeat;   
             background-size: cover;
         }
         #itembox {
-            width: 105px;
-            height: 700px;
-            min-height: 62px;
+            width: 6vw;
+            height: 90vh;
             float: left;
             background: rgba(100, 100, 100, 0.7);
         }
         .object {
-            width: 25px;
-            height: 25px;
+            width: 94vw;
+            height: 100vh;
             position: absolute;
             cursor: pointer;
             z-index: 1;
+            opacity: 0.3;
         }
         .item{
             cursor: pointer;
         }
-        #key{
+        #key{          
+            width: 2.5vh;
+            height: 2.5vh;
             left: 500px;
             top: 50px;
         }
         #cursor{
+            width: 2.5vh;
+            height: 2.5vh;            
             left: 650px;
             top: 200px;
         }
         #ghost{
+            width: 2.5vh;
+            height: 2.5vh;
             left: 850px;
             top: 550px;
         }
         #cursor1{
+            width: 2.5vh;
+            height: 2.5vh;
             left: 400px;
             top: 450px;
         }
-        #password{
-            left: 100px;
-            top: 100px;
+        #password1{
+            clip-path: polygon(24vw 36vh, 38vw 36vh, 38vw 72vh, 25vw 80vh);
+        }
+        #password2{
+            width: 11vh;
+            height: 8vh;
+            left: 56vw;
+            top: 48vh;
+        }
+        #door1{
+            clip-path: polygon(0 23vh, 30vh 25vh, 36vh 83vh, 0 97vh);
+        }
+        #door2{           
+         clip-path: polygon(100vw 20vh, 80vw 23vh, 75vw 95vh, 100vw 100vh);
+        }
+        #room101{
+            width: 24.6vh;
+            height: 48vh;
+            left: 17.5vw;
+            top: 29vh;
+        }
+        #LaundryRoom{
+            width: 24.6vh;
+            height: 48vh;
+            left: 70.5vw;
+            top: 29vh;
         }
     </style>
 
     <script>
+        let imgSrc = {
+            열쇠: '그림3.png',
+            커서: "그림4.svg",
+            유령: "그림5.svg",
+            자물쇠: "자물쇠_잠금.svg",
+            열림: "자물쇠_열림.svg"
+            };
         function ItemInsert(obj) {
             let bool = true;
             let newItem = document.createElement("img");
-            newItem.src = obj.src;
-
+            newItem.src = imgSrc[obj.alt];
+            newItem.style.height = "6vw";
+            newItem.style.width = "6vw";
             newItem.className="item"
             newItem.id=obj.id
+
             if(newItem.id != "ghost") newItem.onclick = function() {alert(obj.alt);};
             else newItem.onclick = function() {
                 zo.src = newItem.src;
@@ -92,16 +146,15 @@
             for (let i = 0; i < items.length; i++) {
                 if (items[i].id == "key") {
                     unlock = true
-                    items[i].style.display = 'none'
+                    items[i].remove();
                     break;
                 }
             }
             if(unlock) {
                 lock.style.display = 'none';
-                lock.src = "자물쇠_열림.svg";
-
+                lock.alt = '열림';
             } 
-            zo.src = lock.src; 
+            zo.src = imgSrc[lock.alt]; 
             zoom.style.display = "block";
         }
         function Nonedisplay() {
@@ -110,23 +163,46 @@
     </script>
 </head>
 <body>
-    <article id="screen" style="margin-left: auto; margin-right: auto; display: block;">
-        <ol id="itembox"></ol>
+    <ol id="itembox"></ol>
+    <article id="screen1" style="margin-left: auto; margin-right: auto; display: block;">
         <div id="div1">
-            <img class="object" id="key" src="그림3.png"
-            alt="열쇠 입니다" onclick="ItemInsert(this)">
-            <img class="object" id="cursor" src="그림4.svg"
-            alt="커서 입니다" onclick="ItemInsert(this)">
-            <img class="object" id="ghost" src="그림5.svg"
-            alt="유령 입니다" onclick="ItemInsert(this)">
-            <img class="object" id="cursor1" src="그림4.svg"
-            alt="커서1 입니다" onclick="ItemInsert(this)">
-            <img class="object" id="password" src="자물쇠_잠금.svg"
+            <img class="object" id="key" src="흰색.png"
+            alt="열쇠" onclick="ItemInsert(this)">
+            <img class="object" id="cursor" src="흰색.png"
+            alt="커서" onclick="ItemInsert(this)">
+            <img class="object" id="ghost" src="흰색.png"
+            alt="유령" onclick="ItemInsert(this)">
+            <img class="object" id="cursor1" src="흰색.png"
+            alt="커서" onclick="ItemInsert(this)">
+            <img class="object" id="password1" src="흰색.png"
             alt="자물쇠" onclick="Unlock(this)">
+            <img class="object" id="password2" src="흰색.png"
+            alt="자물쇠" onclick="Unlock(this)">
+            <img class="object" id="door1" src="흰색.png"
+            alt="문" onclick="document.getElementById('screen1').style.display = 'none'; document.getElementById('screen2').style.display = 'block';">
+
         </div>
         <div id='zoom' style="text-align: center;">
             <img id='zo' src="" onclick="Nonedisplay()">
         </div>
     </article>
+    <article id="screen2" style="margin-left: auto; margin-right: auto; display: none;">
+        <div id="div1">
+            <img class="object" id="room101" src="흰색.png"
+            alt="문" onclick="document.getElementById('screen2').style.display = 'none'; document.getElementById('screen1').style.display = 'block';">
+            <img class="object" id="LaundryRoom" src="흰색.png"
+            alt="문" onclick="document.getElementById('screen2').style.display = 'none'; document.getElementById('screen3').style.display = 'block';">
+        </div>
+        <div id='zoom' style="text-align: center;">
+            <img id='zo' src="" onclick="Nonedisplay()">
+        </div>
+    </article>
+    <article id="screen3" style="margin-left: auto; margin-right: auto; display: none;">
+        <div id="div1">
+            <img class="object" id="door2" src="흰색.png"
+            alt="문" onclick="document.getElementById('screen3').style.display = 'none'; document.getElementById('screen2').style.display = 'block';">
+        </div>
+        <div id='zoom' style="text-align: center;">
+            <img id='zo' src="" onclick="Nonedisplay()">
 </body>
 </html>
