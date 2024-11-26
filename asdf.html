@@ -45,6 +45,27 @@
             background-repeat: no-repeat;   
             background-size: cover;
         }
+        #screen4 {
+            height: 100vh;
+            width: 100vw;
+            background: url("지하실문.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        #screen5 {
+            height: 100vh;
+            width: 100vw;
+            background: url("지하계단.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        #screen6 {
+            height: 100vh;
+            width: 100vw;
+            background: url("지하실.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
         #itembox {
             width: 6vw;
             height: 90vh;
@@ -113,6 +134,21 @@
             left: 70.5vw;
             top: 29vh;
         }
+        #board{
+            clip-path: polygon(45vw 24vh, 65vw 19vh, 64vw 47vh, 45vw 43vh);
+        }
+        #secretPath{
+            clip-path: ellipse(80px 68px at 16% 61%);
+        }
+        #basementDoor{
+            clip-path: polygon(33vw 35vh, 55vw 35vh, 55vw 72vh, 33vw 72vh);
+        }
+        #laundryRoomPassword{
+            clip-path: polygon(56vw 41vh, 58vw 40vh, 58vw 48vh, 56vw 48vh);
+        }
+        #toBasement{
+            clip-path: polygon(37vw 35vh, 51vw 35vh, 53vw 60vh, 35vw 60vh);
+        }
     </style>
 
     <script>
@@ -160,6 +196,23 @@
         function Nonedisplay() {
             zoom.style.display = "none";
         }
+        function ShowImg(imageSrc) {
+            const modal = document.getElementById('modal');
+            const modalImg = document.getElementById('modalImg');
+            const overlay = document.getElementById('overlay');
+
+            modalImg.src = imageSrc;
+
+            modal.style.display = 'block';
+            modal.style.display = 'block';
+        }
+        function hideModal() {
+            const modal = document.getElementById('modal');
+            const overlay = document.getElementById('overlay');
+
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        }
     </script>
 </head>
 <body>
@@ -201,8 +254,37 @@
         <div id="div1">
             <img class="object" id="door2" src="흰색.png"
             alt="문" onclick="document.getElementById('screen3').style.display = 'none'; document.getElementById('screen2').style.display = 'block';">
+            <img class="object" id="board" src="흰색.png"
+            alt="게시판" onclick="ShowImg('넣어야 할 이미지.png')">
+            <img class="object" id="secretPath" src="흰색.png"
+            alt="문" onclick="document.getElementById('screen3').style.display = 'none'; document.getElementById('screen4').style.display = 'block';">
+            <div class="overlay" id="overlay" onclick="hideModal()"></div>
+            <div class="modal" id="modal">
+                <img id="modalImg" src="" onclick="ItemInsert(this); hideModal();">
+            </div>
         </div>
         <div id='zoom' style="text-align: center;">
             <img id='zo' src="" onclick="Nonedisplay()">
+        </div>
+    </article>
+    <article id="screen4" style="margin-left: auto; margin-right: auto; display:none;">
+        <div id="div1">
+            <img class="object" id="laundryRoomPassword" src="흰색.png"
+            alt="자물쇠" onclick="Unlock(this)">
+            <img class="object" id="basementDoor" src="흰색.png"
+            alt="문" onclick="document.getElementById('screen4').style.display = 'none'; document.getElementById('screen5').style.display = 'block';">
+        </div>        
+    </article>
+    <article id="screen5" style="margin-left: auto; margin-right: auto; display:none;">
+        <div id="div1">
+            <img class="object" id="toBasement" src="흰색.png"
+            alt="문" onclick="document.getElementById('screen5').style.display = 'none'; document.getElementById('screen6').style.display = 'block';">
+        </div>        
+    </article>
+    <article id="screen6" style="margin-left: auto; margin-right: auto; display:none;">
+        <div>
+            
+        </div>        
+    </article>
 </body>
 </html>
