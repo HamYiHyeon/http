@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Background Button</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background-image: url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/bgStart.png'); /* 배경 이미지 설정 */
+            background-size: cover; /* 배경 이미지를 화면 크기에 맞게 조정 */
+            background-position: center;
+        }
+
+        /* 배경 이미지의 일부분을 버튼으로 만들기 */
+        .btnBackground {
+            position: fixed; /* 화면의 고정된 위치에 버튼 배치 */
+            top: 60vh; /* 화면 높이에 비례하여 버튼을 중앙에서 더 아래로 배치 */
+            left: 50%; /* 화면 가로 중앙에 배치 */
+            transform: translateX(-50%); /* 수평으로 정확히 가운데 정렬 */
+            width: 20vw; /* 화면 너비에 비례하여 버튼의 너비 설정 */
+            height: 15vh; /* 화면 높이에 비례하여 버튼의 높이 설정 */
+            background-image: url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/btnStart.png'); /* 버튼 배경 이미지 */
+            background-size: cover; /* 이미지 크기를 버튼에 맞게 조정 */
+            background-position: center; /* 이미지의 중앙을 버튼에 맞게 배치 */
+            cursor: pointer; /* 클릭할 수 있도록 커서 모양 변경 */
+            border-radius: 10px; /* 버튼의 둥근 모서리 */
+        }
+
+        /* 버튼에 마우스를 올렸을 때 */
+        .btnBackground:hover {
+            opacity: 0.8; /* 마우스를 올리면 투명도 변경 */
+        }
+
+        /* 버튼의 클릭 시 효과 */
+        .btnBackground:active {
+            transform: translateX(-50%) scale(0.95); /* 클릭 시 살짝 눌리는 효과 */
+        }
+
+        /* btnOpenRoom 모달*/
+        #btnRoomOpenModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            z-index: 10;
+        }
+
+        #RoomAlertMessage {
+            display: none;
+            margin-top: 10px;
+        }
+
+        /* btnOpenRoom 이미지 버튼 */
+        #btnOpenRoom {
+            position: absolute;  /* 절대 위치로 배치 */
+            top: 40vh;  /* 화면의 상단에서 40% 위치 */
+            left: 21%;  
+            transform: translateX(-50%); /* 수평 중앙 정렬 */
+            width: 5vw;  /* 버튼 크기 설정 */
+            height: auto;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        #btnOpenRoom img {
+            width: 100%;  /* 버튼의 크기에 맞춰 이미지 크기 조정 */
+            height: 100%;
+            object-fit: contain;  /* 이미지 비율 유지 */
+        }
+
+
+        /* btnLaundary 이미지 버튼 */
+        #btnLaundary {
+            position: absolute;  /* 절대 위치로 배치 */
+            top: 18.6vh;  /* 화면의 상단에서 40% 위치 */
+            left: 80.1%;  
+            transform: translateX(-50%); /* 수평 중앙 정렬 */
+            width: 17.5vw;  /* 버튼 크기 설정 */
+            height: auto;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        #btnLaundary img {
+            width: 100%;  /* 버튼의 크기에 맞춰 이미지 크기 조정 */
+            height: 100%;
+            object-fit: contain;  /* 이미지 비율 유지 */
+        }
+
+        /* btnWashingmachine 이미지 버튼 */
+        #btnWashingmachine {
+            position: absolute;  /* 절대 위치로 배치 */
+            top: 53.2vh;  /* 화면의 상단에서 40% 위치 */
+            left: 73%;  
+            transform: translateX(-50%); /* 수평 중앙 정렬 */
+            width: 19vw;  /* 버튼 크기 설정 */
+            height: auto;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        #btnWashingmachine img {
+            width: 100%;  /* 버튼의 크기에 맞춰 이미지 크기 조정 */
+            height: 100%;
+            object-fit: contain;  /* 이미지 비율 유지 */
+        }
+
+        /* 지하실 암호 모달*/
+        #btnSecretModal{
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+        }
+        #secretAlertMessage{
+            display: none;
+            margin-top: 10px;
+        }
+
+        /* 지하실 암호 버튼*/
+        #btnSecret {
+            position: absolute;  /* 절대 위치로 배치 */
+            top: 40vh;  /* 화면의 상단에서 40% 위치 */
+            left: 65%;  
+            transform: translateX(-50%); /* 수평 중앙 정렬 */
+            width: 2vw;  /* 버튼 크기 설정 */
+            height: auto;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        #btnSecret img{
+            width: 100%;  /* 버튼의 크기에 맞춰 이미지 크기 조정 */
+            height: 100%;
+            object-fit: contain;  /* 이미지 비율 유지 */
+        }
+
+        /* 탈출 버튼 */
+        #btnEscape {
+            position: absolute;  /* 절대 위치로 배치 */
+            top: 53vh;  /* 화면의 상단에서 40% 위치 */
+            left: 71.5%;  
+            transform: translateX(-50%); /* 수평 중앙 정렬 */
+            width: 19vw;  /* 버튼 크기 설정 */
+            height: auto;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        #btnEscape img{
+            width: 100%;  /* 버튼의 크기에 맞춰 이미지 크기 조정 */
+            height: 100%;
+            object-fit: contain;  /* 이미지 비율 유지 */
+        }
+
+        /*갑툭튀 액자 버튼*/
+        #btnPhoto1{
+            position: absolute;  /* 절대 위치로 배치 */
+            top: 68.5vh;  /* 화면의 상단에서 40% 위치 */
+            left: 90%;  
+            transform: translateX(-50%); /* 수평 중앙 정렬 */
+            width: 7vw;  /* 버튼 크기 설정 */
+            height: auto;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        #btnPhoto1 img{
+            width: 100%;  /* 버튼의 크기에 맞춰 이미지 크기 조정 */
+            height: 100%;
+            object-fit: contain;  /* 이미지 비율 유지 */
+        }
+
+        /*서랍 열쇠 액자 버튼*/
+        #btnPhoto2{
+            position: absolute;  /* 절대 위치로 배치 */
+            top: 68.5vh;  /* 화면의 상단에서 40% 위치 */
+            left: 89%;  
+            transform: translateX(-50%); /* 수평 중앙 정렬 */
+            width: 7vw;  /* 버튼 크기 설정 */
+            height: auto;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        #btnPhoto2 img{
+            width: 100%;  /* 버튼의 크기에 맞춰 이미지 크기 조정 */
+            height: 100%;
+            object-fit: contain;  /* 이미지 비율 유지 */
+        }
+
+        /*서랍 버튼*/
+        #btnDrawer{
+            position: absolute;  /* 절대 위치로 배치 */
+            top: 46.7vh;  /* 화면의 상단에서 40% 위치 */
+            left: 59.5%;  
+            transform: translateX(-50%); /* 수평 중앙 정렬 */
+            width: 7vw;  /* 버튼 크기 설정 */
+            height: auto;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        #btnDrawer img{
+            width: 100%;  /* 버튼의 크기에 맞춰 이미지 크기 조정 */
+            height: 100%;
+            object-fit: contain;  /* 이미지 비율 유지 */
+        }
+
+        /*옷장 버튼*/
+        #btnCloset{
+            position: absolute;  /* 절대 위치로 배치 */
+            top: 36.5vh;  /* 화면의 상단에서 40% 위치 */
+            left: 37%;  
+            transform: translateX(-50%); /* 수평 중앙 정렬 */
+            width: 13vw;  /* 버튼 크기 설정 */
+            height: auto;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        #btnCloset img{
+            width: 100%;  /* 버튼의 크기에 맞춰 이미지 크기 조정 */
+            height: 100%;
+            object-fit: contain;  /* 이미지 비율 유지 */
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="btnBackground" onclick="changeBackground()"></div>
+
+    <!-- RoomLocker 모달 -->
+    <div id="btnRoomOpenModal">
+        <p>암호를 입력하세요:</p>
+        <input type="text" id="RoomPasswordInput" placeholder="암호 입력" />
+        <button id="btnRoomCheck">확인</button>
+        <button id="btnRoomClose">닫기</button>
+        <p id="RoomAlertMessage"></p>
+    </div>
+
+    <!-- 지하실 암호 모달 -->
+    <div id= "btnSecretModal">
+        <p>암호를 입력하세요:</p>
+        <input type="text" id="SecretPasswordInput" placeholder="암호 입력"/>
+        <button id="btnSecretCheck">확인</button>
+        <button id="btnSecretClose">닫기</button>
+        <p id="secretAlertMessage"></p>
+    </div>
+
+    <script>
+        // 버튼 클릭 시 배경 이미지를 변경하는 함수
+        function changeBackground() {
+            // 배경 이미지 변경
+            document.body.style.backgroundImage = "url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/기숙사방.png')";
+            
+            // 시작 버튼 숨기기
+            document.querySelector('.btnBackground').style.display = 'none';
+
+            // btnOpenRoom 버튼 생성
+            let btnOpenRoom = document.createElement('button');
+            btnOpenRoom.id = 'btnOpenRoom';
+
+            // 이미지 추가
+            let img = document.createElement('img');
+            img.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/RoomLocker.png'; // 이미지 경로
+            btnOpenRoom.appendChild(img);
+
+            // btnOpenRoom 버튼을 body에 추가
+            document.body.appendChild(btnOpenRoom);
+
+            // btnOpenRoom 클릭 시 모달 띄우기
+            btnOpenRoom.addEventListener('click', function() {
+                document.getElementById('btnRoomOpenModal').style.display = 'block';
+            });
+
+            //갑툭튀 액자 버튼 생성
+            let btnPhoto1 = document.createElement('button');
+            btnPhoto1.id = 'btnPhoto1';
+
+            //이미지 추가
+            let imgPhoto1 = document.createElement('img');
+            imgPhoto1.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/액자.png'
+            btnPhoto1.appendChild(imgPhoto1);
+
+            //btnPhoto1 버튼을 body에 추가
+            document.body.appendChild(btnPhoto1);
+
+            document.getElementById('btnPhoto1').addEventListener('click', function(){
+                document.getElementById('btnPhoto1').style.display = 'none';
+
+
+            
+                //열쇠 액자 버튼 생성
+                let btnPhoto2 = document.createElement('button');
+                btnPhoto2.id = 'btnPhoto2';
+
+                //이미지 추가
+                let imgPhoto2 = document.createElement('img');
+                imgPhoto2.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/액자.png'
+                btnPhoto2.appendChild(imgPhoto2);
+
+                //btnPhoto2 버튼을 body에 추가
+                document.body.appendChild(btnPhoto2);
+            });
+
+
+            //서랍 버튼 생성
+            let btnDrawer = document.createElement('button');
+            btnDrawer.id = 'btnDrawer';
+
+            //이미지 추가
+            let imgDrawer = document.createElement('img');
+            imgDrawer.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/서랍.png';
+            btnDrawer.appendChild(imgDrawer);
+
+            //btnDrawer 버튼을 body에 추가
+            document.body.appendChild(btnDrawer);
+
+            //옷장 버튼 생성
+            let btnCloset = document.createElement('button');
+            btnCloset.id = 'btnCloset';
+
+            //이미지 추가
+            let imgCloset = document.createElement('img');
+            imgCloset.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/옷장.png';
+            btnCloset.appendChild(imgCloset);
+
+            //btnCloset 버튼을 body에 추가
+            document.body.appendChild(btnCloset);
+
+        }
+
+        // 모달 닫기 버튼
+        document.getElementById('btnRoomClose').addEventListener('click', function() {
+            document.getElementById('btnRoomOpenModal').style.display = 'none';
+        });
+
+        document.getElementById('btnSecretClose').addEventListener('click', function() {
+            document.getElementById('btnSecretModal').style.display = 'none';
+        });
+
+
+        // 암호 확인 버튼
+        document.getElementById('btnRoomCheck').addEventListener('click', function() {
+            const password = document.getElementById('RoomPasswordInput').value;
+            if (password === "1111") {  // 암호 여기서 수정
+                alert("열렸습니다.");
+                document.getElementById('btnOpenRoom').style.display = 'none';
+                document.getElementById('btnRoomOpenModal').style.display = 'none';
+                document.getElementById('btnDrawer').style.display = 'none';
+                document.getElementById('btnCloset').style.display = 'none';
+
+                document.body.style.backgroundImage = "url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/복도.png')";
+
+                // btnLuandary 버튼 생성
+                let btnLaundary = document.createElement('button');
+                btnLaundary.id = 'btnLaundary';
+
+                // 이미지 추가
+                let img = document.createElement('img');
+                img.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/LaundaryDoor.png'; // 이미지 경로
+                btnLaundary.appendChild(img);
+
+                // btnLaundary버튼을 body에 추가
+                document.body.appendChild(btnLaundary);
+
+                document.getElementById('btnLaundary').addEventListener('click', function() {
+                    document.body.style.backgroundImage = "url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/세탁실.png')";
+                    document.getElementById('btnLaundary').style.display = 'none';
+
+                    // btnWashingmachine 버튼 생성
+                    let btnWashingmachine = document.createElement('button');
+                    btnWashingmachine.id = 'btnWashingmachine';
+
+                    // 이미지 추가
+                    let imgWashingmachine = document.createElement('img');
+                    imgWashingmachine.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/세탁기.png'; // 이미지 경로
+                    btnWashingmachine.appendChild(imgWashingmachine);
+
+                    // btnWashingmachine 버튼을 body에 추가
+                    document.body.appendChild(btnWashingmachine);
+
+                    document.getElementById('btnWashingmachine').addEventListener('click', function(){
+                        document.body.style.backgroundImage = "url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/지하계단.png')";
+                        document.getElementById('btnWashingmachine').style.display = 'none';
+
+                        setTimeout(function(){
+                            document.body.style.backgroundImage = "url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/지하실문.png')";
+
+                            /* btnScret 버튼 생성*/
+                            let btnSecret = document.createElement('button');
+                            btnSecret.id = 'btnSecret';
+
+                            // 이미지 추가
+                            let imgBtnSecret = document.createElement('img');
+                            imgBtnSecret.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/btnSecret.png';
+                            btnSecret.appendChild(imgBtnSecret);
+
+                            //btnSecret 버튼을 body에 추가
+                            document.body.appendChild(btnSecret);
+
+                            //btnSecret을 누르면 모달 띄우기
+                            btnSecret.addEventListener('click', function() {
+                                document.getElementById('btnSecretModal').style.display = 'block';
+                            });
+
+                            document.getElementById('btnSecretCheck').addEventListener('click', function(){
+                                const password = document.getElementById('SecretPasswordInput').value;
+                                if(password === "1111"){
+                                    alert("열렸습니다.");
+                                    document.getElementById('btnSecret').style.display = 'none';
+                                    document.getElementById('btnSecretModal').style.display = 'none';
+                                    document.body.style.backgroundImage = "url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/지하실.png')";
+
+                                    // 탈출 버튼 생성
+                                    let btnEscape = document.createElement('button');
+                                    btnEscape.id = 'btnEscape';
+
+                                    //이미지 추가
+                                    let imgBtnEscape = document.createElement('img');
+                                    imgBtnEscape.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/btnEscape.png';
+                                    btnEscape.appendChild(imgBtnEscape);
+
+                                    //btnEscape 버튼을 body에 추가
+                                    document.body.appendChild(btnEscape);
+
+                                    document.getElementById('btnEscape').addEventListener('click', function(){
+                                        document.body.style.backgroundImage = "url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/중앙현관.png')";
+                                        document.getElementById('btnEscape').style.display = 'none';
+                                    });
+                                } else {
+                                    document.getElementById('secretAlertMessage').style.display = 'block';
+                                    document.getElementById('secretAlertMessage').innerText = "잘못된 암호입니다!";
+                                };
+                            });
+                        }, 2000);
+                    });
+                });
+            } else {
+                document.getElementById('RoomAlertMessage').style.display = 'block';
+                document.getElementById('RoomAlertMessage').innerText = "잘못된 암호입니다!";
+            }
+        });
+
+
+    </script>
+
+</body>
+</html>
