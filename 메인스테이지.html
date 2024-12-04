@@ -8,7 +8,7 @@
         body {
             margin: 0;
             height: 100vh;
-            background-image: url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/bgStart.png'); /* 배경 이미지 설정 */
+            background-image: url('bgStart.png'); /* 배경 이미지 설정 */
             background-size: cover; /* 배경 이미지를 화면 크기에 맞게 조정 */
             background-position: center;
         }
@@ -21,7 +21,7 @@
             transform: translateX(-50%); /* 수평으로 정확히 가운데 정렬 */
             width: 20vw; /* 화면 너비에 비례하여 버튼의 너비 설정 */
             height: 15vh; /* 화면 높이에 비례하여 버튼의 높이 설정 */
-            background-image: url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/btnStart.png'); /* 버튼 배경 이미지 */
+            background-image: url('btnStart.png'); /* 버튼 배경 이미지 */
             background-size: cover; /* 이미지 크기를 버튼에 맞게 조정 */
             background-position: center; /* 이미지의 중앙을 버튼에 맞게 배치 */
             cursor: pointer; /* 클릭할 수 있도록 커서 모양 변경 */
@@ -269,7 +269,7 @@
         // 버튼 클릭 시 배경 이미지를 변경하는 함수
         function changeBackground() {
             // 배경 이미지 변경
-            document.body.style.backgroundImage = "url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/기숙사방.png')";
+            document.body.style.backgroundImage = "url('기숙사방.png')";
             
             // 시작 버튼 숨기기
             document.querySelector('.btnBackground').style.display = 'none';
@@ -280,7 +280,7 @@
 
             // 이미지 추가
             let img = document.createElement('img');
-            img.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/RoomLocker.png'; // 이미지 경로
+            img.src = 'RoomLocker.png'; // 이미지 경로
             btnOpenRoom.appendChild(img);
 
             // btnOpenRoom 버튼을 body에 추가
@@ -297,7 +297,7 @@
 
             //이미지 추가
             let imgPhoto1 = document.createElement('img');
-            imgPhoto1.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/액자.png'
+            imgPhoto1.src = '액자.png'
             btnPhoto1.appendChild(imgPhoto1);
 
             //btnPhoto1 버튼을 body에 추가
@@ -314,7 +314,7 @@
 
                 //이미지 추가
                 let imgPhoto2 = document.createElement('img');
-                imgPhoto2.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/액자.png'
+                imgPhoto2.src = '액자.png'
                 btnPhoto2.appendChild(imgPhoto2);
 
                 //btnPhoto2 버튼을 body에 추가
@@ -328,7 +328,7 @@
 
             //이미지 추가
             let imgDrawer = document.createElement('img');
-            imgDrawer.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/서랍.png';
+            imgDrawer.src = '서랍.png';
             btnDrawer.appendChild(imgDrawer);
 
             //btnDrawer 버튼을 body에 추가
@@ -340,7 +340,7 @@
 
             //이미지 추가
             let imgCloset = document.createElement('img');
-            imgCloset.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/옷장.png';
+            imgCloset.src = '옷장.png';
             btnCloset.appendChild(imgCloset);
 
             //btnCloset 버튼을 body에 추가
@@ -368,7 +368,7 @@
                 document.getElementById('btnDrawer').style.display = 'none';
                 document.getElementById('btnCloset').style.display = 'none';
 
-                document.body.style.backgroundImage = "url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/복도.png')";
+                document.body.style.backgroundImage = "url('복도.png')";
 
                 // btnLuandary 버튼 생성
                 let btnLaundary = document.createElement('button');
@@ -376,14 +376,14 @@
 
                 // 이미지 추가
                 let img = document.createElement('img');
-                img.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/LaundaryDoor.png'; // 이미지 경로
+                img.src = 'LaundaryDoor.png'; // 이미지 경로
                 btnLaundary.appendChild(img);
 
                 // btnLaundary버튼을 body에 추가
                 document.body.appendChild(btnLaundary);
 
                 document.getElementById('btnLaundary').addEventListener('click', function() {
-                    document.body.style.backgroundImage = "url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/세탁실.png')";
+                    document.body.style.backgroundImage = "url('세탁실.png')";
                     document.getElementById('btnLaundary').style.display = 'none';
 
                     // btnWashingmachine 버튼 생성
@@ -392,18 +392,18 @@
 
                     // 이미지 추가
                     let imgWashingmachine = document.createElement('img');
-                    imgWashingmachine.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/세탁기.png'; // 이미지 경로
+                    imgWashingmachine.src = '세탁기.png'; // 이미지 경로
                     btnWashingmachine.appendChild(imgWashingmachine);
 
                     // btnWashingmachine 버튼을 body에 추가
                     document.body.appendChild(btnWashingmachine);
 
                     document.getElementById('btnWashingmachine').addEventListener('click', function(){
-                        document.body.style.backgroundImage = "url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/지하계단.png')";
+                        document.body.style.backgroundImage = "url('지하계단.png')";
                         document.getElementById('btnWashingmachine').style.display = 'none';
 
                         setTimeout(function(){
-                            document.body.style.backgroundImage = "url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/지하실문.png')";
+                            document.body.style.backgroundImage = "url('지하실문.png')";
 
                             /* btnScret 버튼 생성*/
                             let btnSecret = document.createElement('button');
@@ -411,7 +411,7 @@
 
                             // 이미지 추가
                             let imgBtnSecret = document.createElement('img');
-                            imgBtnSecret.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/btnSecret.png';
+                            imgBtnSecret.src = 'btnSecret.png';
                             btnSecret.appendChild(imgBtnSecret);
 
                             //btnSecret 버튼을 body에 추가
@@ -428,7 +428,7 @@
                                     alert("열렸습니다.");
                                     document.getElementById('btnSecret').style.display = 'none';
                                     document.getElementById('btnSecretModal').style.display = 'none';
-                                    document.body.style.backgroundImage = "url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/지하실.png')";
+                                    document.body.style.backgroundImage = "url('지하실.png')";
 
                                     // 탈출 버튼 생성
                                     let btnEscape = document.createElement('button');
@@ -436,14 +436,14 @@
 
                                     //이미지 추가
                                     let imgBtnEscape = document.createElement('img');
-                                    imgBtnEscape.src = 'C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/btnEscape.png';
+                                    imgBtnEscape.src = 'btnEscape.png';
                                     btnEscape.appendChild(imgBtnEscape);
 
                                     //btnEscape 버튼을 body에 추가
                                     document.body.appendChild(btnEscape);
 
                                     document.getElementById('btnEscape').addEventListener('click', function(){
-                                        document.body.style.backgroundImage = "url('C:/Users/etdyf/OneDrive/Desktop/웹콘개/FinalTest/http/중앙현관.png')";
+                                        document.body.style.backgroundImage = "url('중앙현관.png')";
                                         document.getElementById('btnEscape').style.display = 'none';
                                     });
                                 } else {
