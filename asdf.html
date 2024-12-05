@@ -77,6 +77,13 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+        #screen8 {
+            height: 100vh;
+            width: 100vw;
+            background: url("게임클리어.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
         #itembox {
             width: 6vw;
             height: 90vh;
@@ -160,25 +167,66 @@
             clip-path: polygon(30vw 43vh, 32vw 43vh, 31vw 46vh, 28vw 46vh);
         }
         #toEntrance{
-            clip-path: polygon(40vw 40vh, 50vw 40vh, 50vw 50vh, 40vw 50vh);
+            display: none;
+            position: absolute;
+            left: 45vw;
+            top: 40vh;
+            width: 300px;
+            height: 150px;
+            opacity: 1;
         }
         #entranceLock{
+            position: absolute;
+            left: 6vw;
             clip-path: polygon(40vw 55vh, 42vw 55vh, 42vw 61vh, 40vw 61vh);
         }
 
+        #dialLockBackground{
+            display: none;
+            position: fixed;
+            top: 12.5vw;
+            left: 45vh;
+            width: 50vw;
+            height: 60vh;
+            opacity: 0.3;
+            z-index: 100;
+        }
         #dialLockModal{
             display: none;
             position: fixed;
-            top: 20;
-            left: 50;
+            top: 30%;
+            left: 17%;
             width: 60vw;
             height: 50vh;
+            z-index: 1000;
         }
         #dialLock{
             display: none;
             width: 100%;
             height: 100%;
             border: none;
+        }
+        #dialLockCloseButton{
+            position: absolute;
+            top: 0vh;
+            left: 50vw;
+            height: 5vh;
+            width: 2.5vw;
+        }
+        #timer{
+            display: none;
+            position: absolute;
+            top: 5vh;
+            left: 80vw;
+            background-color: transparent;
+            border: none;
+            font-size: 40px;
+        }
+        #entranceDoor {
+            position: absolute;
+            left: 6vw;
+            display: none;
+            clip-path: polygon(30vw 23vh, 52vw 23vh, 52vw 85vh, 30vw 85vh);
         }
 
     </style>
@@ -259,6 +307,8 @@
             else if(noteStep === 1) {
                 zo.src = "question2.png";
                 noteStep++;
+                timer();
+                document.getElementById('toEntrance').style.display = 'block';
             }
             else {
                 let items = document.getElementsByClassName("item");
@@ -276,7 +326,6 @@
                 isNoteTransition = false;
             }
         }
-
         function DeleteShirts(obj) {
             let items = document.getElementsByClassName("item");
             let bloodyShirtCount = 0;
@@ -362,8 +411,18 @@
             }
         }
         function dialLock() {
+            document.getElementById("dialLockBackground").style.display = 'block';
             document.getElementById("dialLockModal").style.display = 'block';
             document.getElementById("dialLock").style.display = 'block';
+            document.getElementById("entranceLock").style.display = 'none';
+        }
+        function closeLock() {
+            document.getElementById("dialLockBackground").style.display = 'none';
+            document.getElementById("dialLockModal").style.display = 'none';
+            document.getElementById("dialLock").style.display = 'none';
+            document.getElementById('entranceLock').style.display = 'block';
+            document.getElementById('entranceLock').style.transform = 'translateX("50vw")';
+
         }
         function ShowImg(imageSrc) {
             let items = document.getElementsByClassName("item");
@@ -384,6 +443,32 @@
             const overlay = document.getElementById('overlay');
             memoModal.style.display = 'none';
         }
+
+        setInterval(() => {         //DialLock.html의 localStorage API에서 자물쇠 값(lockStatus)을 받아와서 검사
+            if (localStorage.getItem('lockStatus') === 'unlocked') {
+                closeLock();
+                document.getElementById("entranceLock").style.display = 'none';
+                document.getElementById("entranceDoor").style.display = 'block';
+                localStorage.removeItem('lockStatus');
+            }
+        }, 1000);
+
+
+        function timer() {
+            const timer = document.getElementById('timer');
+            let time = 300000; //5분 타이머
+            timer.style.display = 'block';
+
+            setInterval(function() {time -= 1000; if(time >= 0) timer.value = '제한시간 : ' + time / 1000 + '초';}, 1000);   //1초마다 printTimer 실행
+
+            setTimeout(gameOver, 300000);
+        }
+        function gameOver() {
+            if(document.getElementById("timer").style.display !== 'none') {
+                alert("게임오버");
+                /*게임 오버 띄우기(넣어야함)*/
+            }
+        }
     </script>
 </head>
 <body>
@@ -391,7 +476,7 @@
     <div id='zoom' style="text-align: center;">
         <img id='zo' src="" onclick="Nonedisplay()">
     </div>
-    <article id="screen1" style="margin-left: auto; margin-right: auto; display: none;">
+    <article id="screen1" style="margin-left: auto; margin-right: auto; display: block;">
         <div id="div1">
             <img class="object" id="drawerKey" src="흰색.png"
             alt="열쇠" key='drawer' onclick="ItemInsert(this)">
@@ -452,18 +537,29 @@
         <div>
             <img class="object" id="note" src="흰색.png"
             alt="쪽지" onclick="ItemInsert(this); this.style.display = 'none';">
-            <img class="object" id="toEntrance" src="흰색.png"
+            <img class="object" id="toEntrance" src="btnEscape.png"
             alt="문" onclick="document.getElementById('screen6').style.display = 'none'; document.getElementById('screen7').style.display = 'block';">
         </div>        
     </article>
-    <article id="screen7" style="margin-left: auto; margin-right: auto; display:block;">
+    <article id="screen7" style="margin-left: auto; margin-right: auto; display:none;">
         <div>
             <img class="object" id="entranceLock" src="흰색.png"
             alt="자물쇠" onclick="dialLock(this)">
+            <img id="dialLockBackground" src="흰색.png">
             <div id="dialLockModal">
                 <iframe id=dialLock src="DialLock.html"></iframe>
-                <button onclick="closeLock()"></button>
-        </div>        
+                <button id='dialLockCloseButton' onclick="closeLock()">
+                    <img src="닫기.png">
+                </button>
+            </div>
+            <img class="object" id="entranceDoor" src="흰색.png"
+            alt="문" onclick="document.getElementById('screen7').style.display = 'none'; document.getElementById('screen8').style.display = 'block'; document.getElementById('timer').style.display = 'none';">
+        </div>
     </article>
+    <article id="screen8" style="margin-left: auto; margin-right: auto; display:none;">
+    </article>
+    <div>
+        <input id = "timer" type="text" value="제한시간 : 300초">
+    </div>
 </body>
 </html>
