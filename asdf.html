@@ -70,6 +70,13 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+        #screen7 {
+            height: 100vh;
+            width: 100vw;
+            background: url("중앙현관.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
         #itembox {
             width: 6vw;
             height: 90vh;
@@ -152,6 +159,28 @@
         #note{
             clip-path: polygon(30vw 43vh, 32vw 43vh, 31vw 46vh, 28vw 46vh);
         }
+        #toEntrance{
+            clip-path: polygon(40vw 40vh, 50vw 40vh, 50vw 50vh, 40vw 50vh);
+        }
+        #entranceLock{
+            clip-path: polygon(40vw 55vh, 42vw 55vh, 42vw 61vh, 40vw 61vh);
+        }
+
+        #dialLockModal{
+            display: none;
+            position: fixed;
+            top: 20;
+            left: 50;
+            width: 60vw;
+            height: 50vh;
+        }
+        #dialLock{
+            display: none;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
     </style>
 
     <script>
@@ -174,6 +203,7 @@
             문제2: "question2.png"
             };
         let isNoteTransition = false;
+        let noteStep = 0;
 
         function ItemInsert(obj) {
             console.log(obj);
@@ -201,7 +231,6 @@
             if(obj.id != "ghost" && obj.id != "shirts" && !obj.id.startsWith("blood") && obj.id != "memoModalImg" && obj.id != "note" && obj.id != "question2") newItem.onclick = function() {alert(obj.alt);};
             else if(obj.id === "note") {
                 newItem.onclick = function() {
-                    alert(2);
                     zo.src = newItem.src;
                     zoom.style.display = "block";
                     isNoteTransition = true;
@@ -210,29 +239,25 @@
             }
             else {
                 newItem.onclick = function() {
-                    alert(1);
-                    if (!isNoteTransition) {
-                        zo.src = newItem.src;
-                        zoom.style.display = "block";
-                    }
-                    else{
-                        ToggleNoteZoom();
-                    }
+                    zo.src = newItem.src;
+                    zoom.style.display = "block";
                 }
             }
             document.getElementById("itembox").appendChild(newItem);
-            if(obj.src !== undefined) obj.style.display = 'none'
+            if(obj.src !== undefined) 
+            {
+                obj.style.display = 'none';
+            }
         }
 
         function ToggleNoteZoom() {
-            if(!isNoteTransition) return;
 
             if(noteStep === 0) {
                 zo.src = "memo4.png";
                 noteStep++;
             }
             else if(noteStep === 1) {
-                zo.src = "question2";
+                zo.src = "question2.png";
                 noteStep++;
             }
             else {
@@ -320,7 +345,7 @@
             if(unlock) {
                 if(lock.id == "drawer"){
                     ItemInsert({id: 'ghost', alt: '유령'});
-                    ItemInsert({alt: '열쇠', key: 'closet'});
+                    ItemInsert({alt: '열쇠', key: 'closet'}); 
                 }
                 lock.style.display = 'none';
                 lock.alt = '열림';
@@ -329,7 +354,16 @@
             zoom.style.display = "block";
         }
         function Nonedisplay() {
-            zoom.style.display = "none";
+            if(!isNoteTransition) {
+                zoom.style.display = "none";
+            }
+            else {
+                ToggleNoteZoom();
+            }
+        }
+        function dialLock() {
+            document.getElementById("dialLockModal").style.display = 'block';
+            document.getElementById("dialLock").style.display = 'block';
         }
         function ShowImg(imageSrc) {
             let items = document.getElementsByClassName("item");
@@ -414,10 +448,21 @@
             alt="문" onclick="document.getElementById('screen5').style.display = 'none'; document.getElementById('screen6').style.display = 'block';">
         </div>        
     </article>
-    <article id="screen6" style="margin-left: auto; margin-right: auto; display:block;">
+    <article id="screen6" style="margin-left: auto; margin-right: auto; display:none;">
         <div>
             <img class="object" id="note" src="흰색.png"
             alt="쪽지" onclick="ItemInsert(this); this.style.display = 'none';">
+            <img class="object" id="toEntrance" src="흰색.png"
+            alt="문" onclick="document.getElementById('screen6').style.display = 'none'; document.getElementById('screen7').style.display = 'block';">
+        </div>        
+    </article>
+    <article id="screen7" style="margin-left: auto; margin-right: auto; display:block;">
+        <div>
+            <img class="object" id="entranceLock" src="흰색.png"
+            alt="자물쇠" onclick="dialLock(this)">
+            <div id="dialLockModal">
+                <iframe id=dialLock src="DialLock.html"></iframe>
+                <button onclick="closeLock()"></button>
         </div>        
     </article>
 </body>
