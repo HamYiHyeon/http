@@ -28,6 +28,40 @@
             margin: auto;
             z-index: 10;
         }
+
+        #start {
+            margin: 0;
+            height: 100vh;
+            background-image: url('bgStart.png'); /* 배경 이미지 설정 */
+            background-size: cover; /* 배경 이미지를 화면 크기에 맞게 조정 */
+            background-position: center;
+        }
+        /* 배경 이미지의 일부분을 버튼으로 만들기 */
+        .btnBackground {
+            position: fixed; /* 화면의 고정된 위치에 버튼 배치 */
+            top: 60vh; /* 화면 높이에 비례하여 버튼을 중앙에서 더 아래로 배치 */
+            left: 50%; /* 화면 가로 중앙에 배치 */
+            transform: translateX(-50%); /* 수평으로 정확히 가운데 정렬 */
+            width: 18vw; /* 화면 너비에 비례하여 버튼의 너비 설정 */
+            height: 16vh; /* 화면 높이에 비례하여 버튼의 높이 설정 */
+            background-image: url('btnStart.png'); /* 버튼 배경 이미지 */
+            background-size: cover; /* 이미지 크기를 버튼에 맞게 조정 */
+            background-position: center; /* 이미지의 중앙을 버튼에 맞게 배치 */
+            cursor: pointer; /* 클릭할 수 있도록 커서 모양 변경 */
+            border-radius: 10px; /* 버튼의 둥근 모서리 */
+        }
+
+        /* 버튼에 마우스를 올렸을 때 */
+        .btnBackground:hover {
+            opacity: 0.8; /* 마우스를 올리면 투명도 변경 */
+        }
+
+        /* 버튼의 클릭 시 효과 */
+        .btnBackground:active {
+            transform: translateX(-50%) scale(0.95); /* 클릭 시 살짝 눌리는 효과 */
+        }
+
+
         #screen1 {
             height: 100vh;
             width: 100vw;
@@ -84,11 +118,19 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+        #screen9 {
+            height: 100vh;
+            width: 100vw;
+            background: url("gameover.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
         #itembox {
             width: 6vw;
-            height: 90vh;
+            height: 100vh;
             float: left;
             background: rgba(100, 100, 100, 0.7);
+            display: none;
         }
         .object {
             width: 94vw;
@@ -114,7 +156,7 @@
             clip-path: polygon(0 23vh, 30vh 25vh, 36vh 83vh, 0 97vh);
         }
         #door2{           
-            clip-path: polygon(100vw 20vh, 80vw 23vh, 75vw 93vh, 100vw 113vh);
+         clip-path: polygon(100vw 20vh, 80vw 23vh, 75vw 95vh, 100vw 100vh);
         }
         #room101{
             width: 24.6vh;
@@ -131,6 +173,7 @@
         #board{
             clip-path: polygon(45vw 24vh, 65vw 19vh, 64vw 47vh, 45vw 43vh);
         }
+
         #bloodyShirt1{
             clip-path: polygon(17vw 40vh, 19vw 40vh, 18vw 41vh, 17vw 40vh);
             opacity: 1;
@@ -151,6 +194,7 @@
             clip-path: ellipse(95px 75px at 69.5% 46%);
             transform: rotateZ(45deg);
         }
+
         #secretPath{
             clip-path: ellipse(80px 68px at 16% 61%);
         }
@@ -163,6 +207,7 @@
         #toBasement{
             clip-path: polygon(37vw 35vh, 51vw 35vh, 53vw 60vh, 35vw 60vh);
         }
+
         #note{
             clip-path: polygon(30vw 43vh, 32vw 43vh, 31vw 46vh, 28vw 46vh);
         }
@@ -229,25 +274,65 @@
             clip-path: polygon(30vw 23vh, 52vw 23vh, 52vw 85vh, 30vw 85vh);
         }
 
+    /* btnOpenRoom 모달*/
+        #btnRoomOpenModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            z-index: 10;
+        }
+
+        #RoomAlertMessage {
+            display: none;
+            margin-top: 10px;
+        }
+
+                /* btnOpenRoom 이미지 버튼 */
+        #btnOpenRoom {
+            position: absolute;  /* 절대 위치로 배치 */
+            top: 40vh;  /* 화면의 상단에서 40% 위치 */
+            left: 25%;  
+            transform: translateX(-50%); /* 수평 중앙 정렬 */
+            width: 3vw;  /* 버튼 크기 설정 */
+            height: auto;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        #btnOpenRoom img {
+            width: 100%;  /* 버튼의 크기에 맞춰 이미지 크기 조정 */
+            height: 100%;
+            object-fit: contain;  /* 이미지 비율 유지 */
+        }
     </style>
 
     <script>
+        let door1 = false;  
         let imgSrc = {
+            메모1: "memo1.png",
+            메모2: "memo2.png",
+            쪽지: "memo3.png",
+            메모4: "memo4.png",
+            피옷1: 'blood_shirts_1.png',
+            피옷2: 'blood_shirts_2.png',
+            피옷3: 'blood_shirts_3.png',
+            피옷4: 'blood_shirts_4.png',
+            빤옷1: 'hint_shirts_1.png',
+            빤옷2: 'hint_shirts_2.png',
+            빤옷3: 'hint_shirts_3.png',
+            빤옷4: 'hint_shirts_4.png',
             열쇠: '그림3.png',
             커서: "그림4.svg",
             유령: "그림5.svg",
             자물쇠: "자물쇠_잠금.svg",
             열림: "자물쇠_열림.svg",
-            메모2: "memo2.png",
-            피옷1: "blood_shirts_1.png",
-            피옷2: "blood_shirts_2.png",
-            피옷3: "blood_shirts_3.png",
-            피옷4: "blood_shirts_4.png",
-            힌트옷1: "hint_shirts_1.png",
-            힌트옷2: "hint_shirts_2.png",
-            힌트옷3: "hint_shirts_3.png",
-            힌트옷4: "hint_shirts_4.png",
-            쪽지: "memo3.png",
             문제2: "question2.png"
             };
         let isNoteTransition = false;
@@ -257,10 +342,13 @@
             console.log(obj);
             let bool = true;
             let newItem = document.createElement("img");
-            newItem.src = imgSrc[obj.alt];
+            if(obj.id == 'board'){
+                newItem.src = imgSrc['메모2'];
+            }
+            else {newItem.src = imgSrc[obj.alt];}
             newItem.style.height = "6vw";
             newItem.style.width = "6vw";
-            newItem.className="item";
+            newItem.className="item"
             newItem.alt = obj.alt;
 
             if(typeof obj.getAttribute === 'function') {
@@ -276,26 +364,23 @@
                 console.log(newItem);
             }
 
-            if(obj.id != "ghost" && obj.id != "shirts" && !obj.id.startsWith("blood") && obj.id != "memoModalImg" && obj.id != "note" && obj.id != "question2") newItem.onclick = function() {alert(obj.alt);};
+            if(obj.id != "zoomitem" && obj.id != 'board' && obj.id != "note") newItem.onclick = function() {alert(obj.alt);};
+
             else if(obj.id === "note") {
                 newItem.onclick = function() {
                     zo.src = newItem.src;
                     zoom.style.display = "block";
                     isNoteTransition = true;
-                    let noteStep = 0;
+                    noteStep = 0;
                 }
             }
-            else {
-                newItem.onclick = function() {
-                    zo.src = newItem.src;
-                    zoom.style.display = "block";
-                }
+            
+            else newItem.onclick = function() {
+                zo.src = newItem.src;
+                zoom.style.display = "block";
             }
             document.getElementById("itembox").appendChild(newItem);
-            if(obj.src !== undefined) 
-            {
-                obj.style.display = 'none';
-            }
+            if(obj.src !== undefined) obj.style.display = 'none'
         }
 
         function ToggleNoteZoom() {
@@ -347,7 +432,7 @@
             }
             else if(obj === 'hintShirt') {
                 for (let i = 0; i < items.length; i++) {
-                    if (items[i].alt.startsWith("힌트옷")) {
+                    if (items[i].alt.startsWith("빤옷")) {
                         hintShirtCount++;
                         beDeletedItem.push(items[i]);
                     }
@@ -360,7 +445,7 @@
             }
         }
         function InsertHintShirts() {
-            let hintShirts = ["힌트옷1", "힌트옷2", "힌트옷3", "힌트옷4"];
+            let hintShirts = ["빤옷1", "빤옷2", "빤옷3", "빤옷4"];
             for (let i = 0; i < 4; i++) {
                 ItemInsert({ id: "shirts", alt: hintShirts[i] });
             }
@@ -370,7 +455,7 @@
             let hintShirtCount = 0;
 
             for (let i = 0; i < items.length; i++) {
-                if (items[i].alt.startsWith("힌트옷")) {
+                if (items[i].alt.startsWith("빤옷")) {
                     hintShirtCount++;
                 }
             }
@@ -379,6 +464,8 @@
                 document.getElementById('screen4').style.display = 'block';
             }
         }
+
+
         function Unlock(lock) {
             let unlock = false
             let items = document.getElementsByClassName("item");
@@ -393,8 +480,12 @@
             }
             if(unlock) {
                 if(lock.id == "drawer"){
-                    ItemInsert({id: 'ghost', alt: '유령'});
-                    ItemInsert({alt: '열쇠', key: 'closet'}); 
+                    ItemInsert({id: 'zoomitem', alt: '메모1'});
+                    ItemInsert({alt: '열쇠', key: 'closet'});
+                }
+                if(lock.id == "closet"){
+                    ItemInsert({id: 'zoomitem', alt: '피옷1'});
+                    ItemInsert({alt: '피옷2'});
                 }
                 lock.style.display = 'none';
                 lock.alt = '열림';
@@ -407,9 +498,12 @@
                 zoom.style.display = "none";
             }
             else {
+                console.log("쪽지를 읽었습니다")
                 ToggleNoteZoom();
             }
+
         }
+
         function dialLock() {
             document.getElementById("dialLockBackground").style.display = 'block';
             document.getElementById("dialLockModal").style.display = 'block';
@@ -424,24 +518,26 @@
             document.getElementById('entranceLock').style.transform = 'translateX("50vw")';
 
         }
+
         function ShowImg(imageSrc) {
             let items = document.getElementsByClassName("item");
             for (let i = 0; i < Math.max(1, items.length); i++) {
                 if(items.length === 0 || !items[i].alt.startsWith("메모2")) {
-                    const memoModal = document.getElementById('memoModal');
-                    const memoModalImg = document.getElementById('memoModalImg');
+                    const memoModal = document.getElementById('modal');
+                    const memoModalImg = document.getElementById('modalImg');
                     const overlay = document.getElementById('overlay');
                     memoModalImg.src = imageSrc;
                     memoModal.style.display = 'block';
                     memoModal.style.display = 'block';
-                    document.getElementById('memoModalImg').style.display = 'block';
+                    document.getElementById('modalImg').style.display = 'block';
                 }
             }
         }
         function hideModal() {
-            const memoModal = document.getElementById('memoModal');
+            const modal = document.getElementById('modal');
             const overlay = document.getElementById('overlay');
-            memoModal.style.display = 'none';
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
         }
 
         setInterval(() => {         //DialLock.html의 localStorage API에서 자물쇠 값(lockStatus)을 받아와서 검사
@@ -453,30 +549,87 @@
             }
         }, 1000);
 
-
         function timer() {
             const timer = document.getElementById('timer');
-            let time = 300000; //5분 타이머
+            let time = 3000; //5분 타이머
             timer.style.display = 'block';
 
             setInterval(function() {time -= 1000; if(time >= 0) timer.value = '제한시간 : ' + time / 1000 + '초';}, 1000);   //1초마다 printTimer 실행
 
-            setTimeout(gameOver, 300000);
+            setTimeout(gameOver, 3000);
         }
         function gameOver() {
             if(document.getElementById("timer").style.display !== 'none') {
-                alert("게임오버");
-                /*게임 오버 띄우기(넣어야함)*/
+                
+                document.getElementById("screen9").style.display = 'block';
+            }
+        }
+
+        function changeBackground(){
+            document.getElementById('start').style.display = 'none';
+            document.getElementById('screen1').style.display = 'block';
+            document.getElementById('itembox').style.display = 'block';
+                        // btnOpenRoom 버튼 생성
+            let btnOpenRoom = document.createElement('button');
+            btnOpenRoom.id = 'btnOpenRoom';
+
+            // 이미지 추가
+            let img = document.createElement('img');
+            img.src = 'RoomLocker.png'; // 이미지 경로
+            btnOpenRoom.appendChild(img);
+
+            // btnOpenRoom 버튼을 body에 추가
+            screen1.appendChild(btnOpenRoom);
+
+            // btnOpenRoom 클릭 시 모달 띄우기
+            btnOpenRoom.addEventListener('click', function() {
+                document.getElementById('btnRoomOpenModal').style.display = 'block';
+            });
+            btnRoomClose.addEventListener('click', function() {
+                document.getElementById('btnRoomOpenModal').style.display = 'none';
+            });
+            btnRoomCheck.addEventListener('click', function() {
+                const password = document.getElementById('RoomPasswordInput').value;
+                if (password === "7152") {  // 암호 여기서 수정
+                  alert("열렸습니다.");
+                  door1 = true;
+                  document.getElementById('btnRoomOpenModal').style.display = 'none';
+                } else {
+                    document.getElementById('RoomAlertMessage').style.display = 'block';
+                    document.getElementById('RoomAlertMessage').innerText = "잘못된 암호입니다!";
+                    }
+            });
+        }
+        function enterScreen2(door) {
+            if(door1){
+                document.getElementById('screen1').style.display = 'none';
+                document.getElementById('screen2').style.display = 'block';
+            }
+            else {
+                zo.src = imgSrc['자물쇠']; 
+                zoom.style.display = "block";
             }
         }
     </script>
 </head>
 <body>
+    <article id="start">
+        <div class="btnBackground" onclick="changeBackground()">
+        </div>
+    </article>
     <ol id="itembox"></ol>
     <div id='zoom' style="text-align: center;">
         <img id='zo' src="" onclick="Nonedisplay()">
     </div>
-    <article id="screen1" style="margin-left: auto; margin-right: auto; display: block;">
+    <article id="screen1" style="margin-left: auto; margin-right: auto; display: none;">
+            <!-- RoomLocker 모달 -->
+        <div id="btnRoomOpenModal">
+            <p>암호를 입력하세요:</p>
+            <input type="text" id="RoomPasswordInput" placeholder="암호 입력" />
+            <button id="btnRoomCheck">확인</button>
+            <button id="btnRoomClose">닫기</button>
+            <p id="RoomAlertMessage"></p>
+        </div>
         <div id="div1">
             <img class="object" id="drawerKey" src="흰색.png"
             alt="열쇠" key='drawer' onclick="ItemInsert(this)">
@@ -485,7 +638,7 @@
             <img class="object" id="drawer" src="흰색.png"
             alt="자물쇠" need = "drawer" onclick="Unlock(this)">
             <img class="object" id="door1" src="흰색.png"
-            alt="문" need='방문열쇠' onclick="document.getElementById('screen1').style.display = 'none'; document.getElementById('screen2').style.display = 'block';">
+            alt="문" need=true onclick='enterScreen2(this)'>
         </div>
     </article>
     <article id="screen2" style="margin-left: auto; margin-right: auto; display: none;">
@@ -501,22 +654,30 @@
             <img class="object" id="door2" src="흰색.png"
             alt="문" onclick="document.getElementById('screen3').style.display = 'none'; document.getElementById('screen2').style.display = 'block';">
             <img class="object" id="board" src="흰색.png"
-            alt="게시판" onclick="ShowImg('memo2.png')">
-            <img class="object" id="bloodyShirt1" src="흰색.png"
-            alt="피옷1" onclick="ItemInsert(this); this.style.display = 'none';">
-            <img class="object" id="bloodyShirt2" src="흰색.png"
-            alt="피옷2" onclick="ItemInsert(this); this.style.display = 'none';">
+            alt="게시판" onclick="ItemInsert(this)">
+            <div id='btnLaundary'>
+                <img class="object" id="secretPath" src="흰색.png"
+                    alt="문" onclick="document.getElementById('screen3').style.display = 'none'; document.getElementById('screen4').style.display = 'block';">
+            </div>
+            <div class="overlay" id="overlay" onclick="hideModal()"></div>
+            <div class="modal" id="modal">
+                <img id="modalImg" src="" onclick="ItemInsert(this); hideModal();">
+            </div>
+
             <img class="object" id="bloodyShirt3" src="흰색.png"
             alt="피옷3" onclick="ItemInsert(this); this.style.display = 'none';">
             <img class="object" id="bloodyShirt4" src="흰색.png"
             alt="피옷4" onclick="ItemInsert(this); this.style.display = 'none';">
+
             <img class="object" id="washingMachine" src="흰색.png"
             alt="세탁기" onclick="DeleteShirts('bloodyShirt')">
             <img class="object" id="secretPath" src="흰색.png"
             alt="문" onclick="GotoSecretPath()">
+
             <div class="memoModal" id="memoModal">
                 <img alt="메모2" id="memoModalImg" src="" style="display: none" onclick="ItemInsert(this); hideModal();">
             </div>
+
         </div>
     </article>
     <article id="screen4" style="margin-left: auto; margin-right: auto; display:none;">
@@ -524,7 +685,7 @@
             <img class="object" id="laundryRoomPassword" src="흰색.png"
             alt="자물쇠" onclick="Unlock(this)">
             <img class="object" id="basementDoor" src="흰색.png"
-            alt="문" onclick="document.getElementById('screen4').style.display = 'none'; document.getElementById('screen5').style.display = 'block'; DeleteShirts('hintShirt');">
+            alt="문" onclick="document.getElementById('screen4').style.display = 'none'; document.getElementById('screen5').style.display = 'block'; DeleteShirts('hintShirt')" >
         </div>        
     </article>
     <article id="screen5" style="margin-left: auto; margin-right: auto; display:none;">
@@ -561,5 +722,6 @@
     <div>
         <input id = "timer" type="text" value="제한시간 : 300초">
     </div>
+
 </body>
 </html>
