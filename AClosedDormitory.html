@@ -1,0 +1,784 @@
+<!DOCTYPE html> 
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>A closed dormitory</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #zoom {
+            display: none;
+            position: absolute;
+            left: 35vw;
+        }
+        #zo {
+            display: block;
+            position: relative;
+            background: rgba(255, 255, 255, 0.5);
+            top: 15vh;
+            width: 30vw;
+            height: 30vw;
+            cursor: pointer;
+            margin: auto;
+            z-index: 10;
+        }
+
+        #start {
+            position: relative;
+            margin: 0;
+            height: 100vh;
+            background-image: url('./resources/bgStart.png'); /* 배경 이미지 설정 */
+            background-size: cover; /* 배경 이미지를 화면 크기에 맞게 조정 */
+            background-position: center;
+            display: block;
+        }
+        /* 배경 이미지의 일부분을 버튼으로 만들기 */
+        .btnBackground {
+            position: absolute; /* 화면의 고정된 위치에 버튼 배치 */
+            top: 60vh; /* 화면 높이에 비례하여 버튼을 중앙에서 더 아래로 배치 */
+            left: 50%; /* 화면 가로 중앙에 배치 */
+            transform: translateX(-50%); /* 수평으로 정확히 가운데 정렬 */
+            width: 19.5vw; /* 화면 너비에 비례하여 버튼의 너비 설정 */
+            height: 15vh; /* 화면 높이에 비례하여 버튼의 높이 설정 */
+            background-image: url('./resources/btnStart.png'); /* 버튼 배경 이미지 */
+            background-size: cover; /* 이미지 크기를 버튼에 맞게 조정 */
+            background-position: center; /* 이미지의 중앙을 버튼에 맞게 배치 */
+            cursor: pointer; /* 클릭할 수 있도록 커서 모양 변경 */
+            border-radius: 10px; /* 버튼의 둥근 모서리 */
+        }
+        /* 버튼에 마우스를 올렸을 때 */
+        .btnBackground:hover {
+            opacity: 0.8; /* 마우스를 올리면 투명도 변경 */
+        }
+
+        /* 버튼의 클릭 시 효과 */
+        .btnBackground:active {
+            transform: translateX(-50%) scale(0.95); /* 클릭 시 살짝 눌리는 효과 */
+        }
+        #container{
+            position: relative;
+        }
+
+        #screen1 {
+            width: 100vw;
+            height: 100vh;
+            background: url("./resources/기숙사방.png");
+            background-repeat: no-repeat;   
+            background-size: cover;
+            display: none;
+        }
+        #screen2 {
+            height: 100vh;
+            background: url("./resources/복도.png");
+            background-repeat: no-repeat;   
+            background-size: cover;
+        }
+        #screen3 {
+            height: 100vh;
+            width: 100vw;
+            background: url("./resources/세탁실.png");
+            background-repeat: no-repeat;   
+            background-size: cover;
+            display: none;
+        }
+        #screen4 {
+            height: 100vh;
+            width: 100vw;
+            background: url("./resources/지하실문.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        #screen5 {
+            height: 100vh;
+            width: 100vw;
+            background: url("./resources/지하계단.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: none;
+        }
+        #screen6 {
+            height: 100vh;
+            width: 100vw;
+            background: url("./resources/지하실.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: none;
+        }
+        #screen7 {
+            height: 100vh;
+            width: 100vw;
+            background: url("./resources/중앙현관.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        #screen8 {
+            height: 100vh;
+            width: 100vw;
+            background: url("./resources/GameClear.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        #screen9 {
+            height: 100vh;
+            width: 100vw;
+            background: url("./resources/gameover.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        #itembox {
+            position: relative;
+            width: 6vw;
+            height: 100vh;
+            float: left;
+            background: rgba(100, 100, 100, 0.7);
+            display: none;
+        }
+        .object {
+            width: 90vw;
+            height: 90vh;
+            position: absolute;
+            cursor: pointer;
+            z-index: 1;
+            opacity: 0;
+        }
+        .item{
+            cursor: pointer;
+        }
+        #drawerKey{
+            clip-path: polygon(80.7vw 80.3vh, 81.7vw 74vh, 77.8vw 71vh, 76.8vw 76.3vh);
+        }
+        #closet{
+            clip-path: polygon(23.5vw 36vh, 38vw 36vh, 38vw 72vh, 28vw 80vh, 25vw 76vh);
+        }
+        #drawer{
+            clip-path: polygon(50vw 47.7vh, 55.5vw 49vh, 55.5vw 55.5vh, 50vw 54vh);
+        }
+        #door1{
+            clip-path: polygon(0vw 23vh, 30vh 25vh, 36vh 83vh, 0 97vh);
+        }
+        #door2{           
+         clip-path: polygon(100vw 20vh, 80vw 23vh, 75vw 95vh, 100vw 100vh);
+        }
+        #room101{
+            width: 24.6vh;
+            height: 48vh;
+            left: 17.5vw;
+            top: 29vh;
+        }
+        #LaundryRoom{
+            width: 24.6vh;
+            height: 48vh;
+            left: 70.5vw;
+            top: 29vh;
+        }
+        #board{
+            clip-path: polygon(45vw 24vh, 65vw 19vh, 64vw 47vh, 45vw 43vh);
+        }
+
+        #bloodyShirt1{
+            clip-path: polygon(17vw 40vh, 19vw 40vh, 18vw 41vh, 17vw 40vh);
+            opacity: 1;
+        }
+        #bloodyShirt2{
+            clip-path: polygon(48vw 53vh, 51vw 52vh, 49vw 50vh, 49vw 50vh);
+            opacity: 1;
+        }
+        #bloodyShirt3{
+            clip-path: polygon(17vw 38vh, 19vw 38vh, 18vw 39vh, 17vw 38vh);
+            opacity: 1;
+        }
+        #bloodyShirt4{
+            clip-path: polygon(48vw 51vh, 51vw 50vh, 49vw 48vh, 49vw 48vh);
+            opacity: 1;
+        }
+        #washingMachine{
+            clip-path: ellipse(3.5vw 9vh at 52vw 65vh);
+        }
+
+        #secretPath{
+            clip-path: ellipse(4vw 7vh at 15vw 60vh);
+        }
+        #basementDoor{
+            clip-path: polygon(33vw 35vh, 55vw 35vh, 55vw 72vh, 33vw 72vh);
+        }
+        #laundryRoomPassword{
+            position: absolute;
+            cursor: pointer;
+            width: 1vw;
+            top: 45vh;
+            left: 62vw;
+        }
+        #toBasement{
+            clip-path: polygon(37vw 35vh, 51vw 35vh, 53vw 60vh, 35vw 60vh);
+        }
+
+        #note{
+            clip-path: polygon(30vw 43vh, 32vw 43vh, 31vw 46vh, 28vw 46vh);
+        }
+        #toEntrance{
+            display: none;
+            position: absolute;
+            cursor: pointer;
+            left: 45vw;
+            top: 40vh;
+            width: 300px;
+            height: 150px;
+            opacity: 1;
+        }
+        #entranceLock{
+            position: absolute;
+            left: 6vw;
+            clip-path: polygon(30vw 23vh, 52vw 23vh, 52vw 85vh, 30vw 85vh);
+        }
+
+        #dialLockBackground{
+            display: none;
+            position: fixed;
+            top: 12.5vw;
+            left: 45vh;
+            width: 50vw;
+            height: 60vh;
+            opacity: 0.3;
+            z-index: 100;
+        }
+        #dialLockModal{
+            display: none;
+            position: fixed;
+            top: 30%;
+            left: 17%;
+            width: 60vw;
+            height: 50vh;
+            z-index: 1000;
+        }
+        #dialLock{
+            display: none;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        #dialLockCloseButton{
+            position: absolute;
+            top: 0vh;
+            left: 50vw;
+            height: 5vh;
+            width: 2.5vw;
+        }
+        #timer{
+            display: none;
+            position: absolute;
+            top: 5vh;
+            left: 80vw;
+            background-color: transparent;
+            border: none;
+            font-size: 40px;
+        }
+        #entranceDoor {
+            position: absolute;
+            left: 6vw;
+            display: none;
+            clip-path: polygon(30vw 23vh, 52vw 23vh, 52vw 85vh, 30vw 85vh);
+        }
+
+    /* btnOpenRoom 모달*/
+        #btnRoomOpenModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            z-index: 10;
+        }
+        #passwordModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            z-index: 10;
+        }
+        #RoomAlertMessage {
+            display: none;
+            margin-top: 10px;
+        }
+
+                /* btnOpenRoom 이미지 버튼 */
+        #btnOpenRoom {
+            position: absolute;  /* 절대 위치로 배치 */
+            top: 40vh;  /* 화면의 상단에서 40% 위치 */
+            left: 25%;  
+            transform: translateX(-50%); /* 수평 중앙 정렬 */
+            width: 3vw;  /* 버튼 크기 설정 */
+            height: auto;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        #btnOpenRoom img {
+            width: 100%;  /* 버튼의 크기에 맞춰 이미지 크기 조정 */
+            height: 100%;
+            object-fit: contain;  /* 이미지 비율 유지 */
+        }
+    </style>
+
+    <script>
+        let door1 = false;  
+        let imgSrc = {
+            메모1: "./resources/memo1.png",
+            메모2: "./resources/memo2.png",
+            쪽지: "./resources/memo3.png",
+            메모4: "./resources/memo4.png",
+            피옷1: './resources/blood_shirts_1.png',
+            피옷2: './resources/blood_shirts_2.png',
+            피옷3: './resources/blood_shirts_3.png',
+            피옷4: './resources/blood_shirts_4.png',
+            빤옷1: './resources/hint_shirts_1.png',
+            빤옷2: './resources/hint_shirts_2.png',
+            빤옷3: './resources/hint_shirts_3.png',
+            빤옷4: './resources/hint_shirts_4.png',
+            열쇠: './resources/열쇠.svg',
+            자물쇠: "./resources/자물쇠_잠금.png",
+            열림: "./resources/자물쇠_열림.png",
+            문제2: "./resources/question2.png"
+            };
+        let isNoteTransition = false;
+        let noteStep = 0;
+        let startTime = 300000;
+
+        function ItemInsert(obj) {
+            console.log(obj);
+            let bool = true;
+            let newItem = document.createElement("img");
+            newItem.src = imgSrc[obj.alt];
+            newItem.style.height = "6vw";
+            newItem.style.width = "6vw";
+            newItem.className="item"
+            newItem.alt = obj.alt;
+
+            if(typeof obj.getAttribute === 'function') {
+                if(obj.hasAttribute('key')) {
+                        newItem.setAttribute('key', obj.getAttribute('key'));
+                        console.log(newItem);
+                }
+            }
+            else{
+                if('key' in obj){
+                    newItem.setAttribute('key', obj.key);
+                }
+                console.log(newItem);
+            }
+            if(obj.id === "note") {
+                newItem.onclick = function() {
+                    zo.src = newItem.src;
+                    zoom.style.display = "block";
+                    isNoteTransition = true;
+                    let noteStep = 0;
+                }
+            }
+            else if(obj.id != "zoomitem") newItem.onclick = function() {alert(obj.alt);}
+            else newItem.onclick = function() {
+                zo.src = newItem.src;
+                zoom.style.display = "block";
+            }
+            document.getElementById("itembox").appendChild(newItem);
+            if(obj.src !== undefined) obj.style.display = 'none'
+        }
+
+        function ToggleNoteZoom() {
+
+            if(noteStep === 0) {
+                zo.src = "./resources/memo4.png";
+                noteStep++;
+            }
+            else if(noteStep === 1) {
+                zo.src = "./resources/question2.png";
+                noteStep++;
+                timer();
+                document.getElementById('toEntrance').style.display = 'block';
+            }
+            else {
+                let items = document.getElementsByClassName("item");
+
+                ItemInsert({id: "zoomitem", alt: "문제2"});
+                zoom.style.display = "none";
+
+                for (let i = 0; i < items.length; i++) {
+                    if(items[i].alt === "쪽지") {
+                        items[i].remove();
+                        break;
+                    }
+                }
+
+                isNoteTransition = false;
+            }
+        }
+        function DeleteShirts(obj) {
+            let items = document.getElementsByClassName("item");
+            let bloodyShirtCount = 0;
+            let hintShirtCount = 0;
+            let beDeletedItem = [];
+            if(obj === 'bloodyShirt') {
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i].alt.startsWith("피옷")) {
+                        bloodyShirtCount++;
+                        beDeletedItem.push(items[i]);
+                    }
+                }
+                if (bloodyShirtCount === 4) {
+                    for(let i = 0; i < 4; i++) {
+                        beDeletedItem[i].remove();
+                    }
+                    InsertHintShirts();
+                }
+            }
+            else if(obj === 'hintShirt') {
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i].alt.startsWith("빤옷")) {
+                        hintShirtCount++;
+                        beDeletedItem.push(items[i]);
+                    }
+                }
+                if(hintShirtCount === 4) {
+                    for(let i = 0; i < 4; i++) {
+                        beDeletedItem[i].remove();
+                    }
+                }
+            }
+        }
+        function InsertHintShirts() {
+            let hintShirts = ["빤옷1", "빤옷2", "빤옷3", "빤옷4"];
+            for (let i = 0; i < 4; i++) {
+                ItemInsert({id: 'zoomitem', alt: hintShirts[i]});
+            }
+        }
+        function GotoSecretPath() {
+            let items = document.getElementsByClassName("item");
+            let hintShirtCount = 0;
+
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].alt.startsWith("빤옷")) {
+                    hintShirtCount++;
+                }
+            }
+            if(hintShirtCount === 4) {
+                document.getElementById('screen3').style.display = 'none';
+                document.getElementById('screen4').style.display = 'block';
+            }
+        }
+
+
+        function Unlock(lock) {
+            let unlock = false
+            let items = document.getElementsByClassName("item");
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].hasAttribute('key') && items[i].getAttribute('key') === lock.getAttribute('need')) {
+                    console.log(items[i].getAttribute('key'));
+                    console.log(lock.getAttribute('need'));
+                    unlock = true
+                    items[i].remove();
+                    break;
+                }
+            }
+            if(unlock) {
+                if(lock.id == "drawer"){
+                    ItemInsert({id: 'zoomitem', alt: '메모1'});
+                    ItemInsert({alt: '열쇠', key: 'closet'});
+                }
+                if(lock.id == "closet"){
+                    ItemInsert({id: 'zoomitem', alt: '피옷1'});
+                    ItemInsert({id: 'zoomitem', alt: '피옷2'});
+                }
+                lock.style.display = 'none';
+                lock.alt = '열림';
+            } 
+            zo.src = imgSrc[lock.alt]; 
+            zoom.style.display = "block";
+        }
+        function Nonedisplay() {
+            if(!isNoteTransition) {
+                zoom.style.display = "none";
+            }
+            else {
+                ToggleNoteZoom();
+            }
+
+        }
+        function ShowImg(imageSrc) {
+            const modal = document.getElementById('modal');
+            const modalImg = document.getElementById('modalImg');
+            const overlay = document.getElementById('overlay');
+            modalImg.src = imageSrc;
+            modal.style.display = 'block';
+            modal.style.display = 'block';
+        }
+        function hideModal() {
+            const modal = document.getElementById('modal');
+            const overlay = document.getElementById('overlay');
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+        function dialLock() {
+            document.getElementById("dialLockBackground").style.display = 'block';
+            document.getElementById("dialLockModal").style.display = 'block';
+            document.getElementById("dialLock").style.display = 'block';
+            document.getElementById("entranceLock").style.display = 'none';
+        }
+        function closeLock() {
+            document.getElementById("dialLockBackground").style.display = 'none';
+            document.getElementById("dialLockModal").style.display = 'none';
+            document.getElementById("dialLock").style.display = 'none';
+            document.getElementById('entranceLock').style.display = 'block';
+            document.getElementById('entranceLock').style.transform = 'translateX("50vw")';
+
+        }
+        setInterval(() => {         //DialLock.html의 localStorage API에서 자물쇠 값(lockStatus)을 받아와서 검사
+            if (localStorage.getItem('lockStatus') === 'unlocked') {
+                closeLock();
+                document.getElementById("entranceLock").style.display = 'none';
+                document.getElementById("entranceDoor").style.display = 'block';
+                localStorage.removeItem('lockStatus');
+            }
+        }, 1000);
+
+        function timer() {
+            const timer = document.getElementById('timer');
+            let time = startTime; //5분 타이머
+            timer.style.display = 'block';
+
+            setInterval(function() {time -= 1000; if(time >= 0) timer.value = '제한시간 : ' + time / 1000 + '초';}, 1000);   //1초마다 printTimer 실행
+
+            setTimeout(gameOver, startTime);
+        }
+        function gameOver() {
+            if(document.getElementById("timer").style.display !== 'none') {
+                document.getElementById('screen7').style.display = 'none';
+                document.getElementById('timer').style.display = 'none';
+                document.getElementById('itembox').style.display = 'none';
+                document.getElementById("screen9").style.display = 'block';
+            }
+        }
+
+        function changeBackground(){
+            document.getElementById('start').style.display = 'none';
+            document.getElementById('screen1').style.display = 'block';
+            document.getElementById('itembox').style.display = 'block';
+                        // btnOpenRoom 버튼 생성
+            let btnOpenRoom = document.createElement('button');
+            btnOpenRoom.id = 'btnOpenRoom';
+
+            // 이미지 추가
+            let img = document.createElement('img');
+            img.src = './resources/RoomLocker.png'; // 이미지 경로
+            btnOpenRoom.appendChild(img);
+
+            // btnOpenRoom 버튼을 body에 추가
+            screen1.appendChild(btnOpenRoom);
+
+            // btnOpenRoom 클릭 시 모달 띄우기
+            btnOpenRoom.addEventListener('click', function() {
+                document.getElementById('btnRoomOpenModal').style.display = 'block';
+            });
+            btnRoomClose.addEventListener('click', function() {
+                document.getElementById('btnRoomOpenModal').style.display = 'none';
+            });
+            btnRoomCheck.addEventListener('click', function() {
+                const password = document.getElementById('RoomPasswordInput').value;
+                if (password === "7152") {  // 암호 여기서 수정
+                  alert("열렸습니다.");
+                  door1 = true;
+                  document.getElementById('btnRoomOpenModal').style.display = 'none';
+                } else {
+                    document.getElementById('RoomAlertMessage').style.display = 'block';
+                    document.getElementById('RoomAlertMessage').innerText = "잘못된 암호입니다!";
+                    }
+            });
+        }
+        function enterScreen2(door) {
+            if(door1){
+                document.getElementById('screen1').style.display = 'none';
+                document.getElementById('screen2').style.display = 'block';
+            }
+            else {
+                zo.src = imgSrc['자물쇠']; 
+                zoom.style.display = "block";
+            }
+        }
+        // 비밀방 모달 열기
+        function openPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+        }
+
+        // 비밀방 모달 닫기
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('passwordAlertMessage').textContent = '';
+        }
+
+        // 비밀번호 확인
+        function checkPassword() {
+            const correctPassword = '4736';
+            const enteredPassword = document.getElementById('passwordInput').value;
+
+            if (enteredPassword === correctPassword) {
+                // 비밀번호가 맞으면 basementDoor 활성화
+                alert("열렸습니다.")
+                document.getElementById('basementDoor').style.pointerEvents = 'auto';
+                closePasswordModal(); 
+            } else {
+            
+                document.getElementById('passwordAlertMessage').textContent = '비밀번호가 틀렸습니다.';
+            }
+        }
+    </script>
+</head>
+<body>
+    <article id="start">
+        <div id="container">
+            <div class="btnBackground" onclick="changeBackground()">
+            </div>
+        </div>
+    </article>
+    <div>
+        <input id = "timer" type="text" value="제한시간 : 300초">
+    </div>
+    <ol id="itembox"></ol>
+    <div id='zoom' style="text-align: center;">
+        <img id='zo' src="" onclick="Nonedisplay()">
+    </div>
+    <article id="screen1" style="margin-left: auto; margin-right: auto;">
+        <div id="container">
+                <!-- RoomLocker 모달 -->
+            <div id="btnRoomOpenModal">
+                <p>암호를 입력하세요:</p>
+                <input type="text" id="RoomPasswordInput" placeholder="암호 입력" />
+                <button id="btnRoomCheck">확인</button>
+                <button id="btnRoomClose">닫기</button>
+                <p id="RoomAlertMessage"></p>
+            </div>
+            <div id="div1">
+                <img class="object" id="drawerKey" src="./resources/흰색.png"
+                alt="열쇠" key='drawer' onclick="ItemInsert(this)">
+                <img class="object" id="closet" src="./resources/흰색.png"
+                alt="자물쇠" need = "closet"onclick="Unlock(this)">
+                <img class="object" id="drawer" src="./resources/흰색.png"
+                alt="자물쇠" need = "drawer" onclick="Unlock(this)">
+                <img class="object" id="door1" src="./resources/흰색.png"
+                alt="문" need=true onclick='enterScreen2(this)'>
+            </div>
+        </div>
+    </article>
+    <article id="screen2" style="margin-left: auto; margin-right: auto; display: none;">
+            <div id="container">
+            <div id="div2">
+                <img class="object" id="room101" src="./resources/흰색.png"
+                alt="문" onclick="document.getElementById('screen2').style.display = 'none'; document.getElementById('screen1').style.display = 'block';">
+                <img class="object" id="LaundryRoom" src="./resources/흰색.png"
+                alt="문" onclick="document.getElementById('screen2').style.display = 'none'; document.getElementById('screen3').style.display = 'block';">
+            </div>
+        </div>
+    </article>
+    <article id="screen3" style="margin-left: auto; margin-right: auto;">
+        <div id="container">
+            <div id="div3">
+                <img class="object" id="door2" src="./resources/흰색.png"
+                alt="문" onclick="document.getElementById('screen3').style.display = 'none'; document.getElementById('screen2').style.display = 'block';">
+                <img class="object" id="board" src="./resources/흰색.png"
+                alt="게시판" onclick="ItemInsert({id: 'zoomitem', alt: '메모2'}); this.style.display = 'none';">
+                <div class="overlay" id="overlay" onclick="hideModal()"></div>
+                <div class="modal" id="modal">
+                    <img id="modalImg" src="" onclick="ItemInsert(this); hideModal();">
+                </div>
+
+                <img class="object" id="bloodyShirt3" src="./resources/흰색.png"
+                alt="피옷3" onclick="ItemInsert({id: 'zoomitem', alt: '피옷3'}); this.style.display = 'none';">
+                <img class="object" id="bloodyShirt4" src="./resources/흰색.png"
+                alt="피옷4" onclick="ItemInsert({id: 'zoomitem', alt: '피옷4'}); this.style.display = 'none';">
+
+                <img class="object" id="washingMachine" src="./resources/흰색.png"
+                alt="세탁기" onclick="DeleteShirts('bloodyShirt')">
+                <img class="object" id="secretPath" src="./resources/흰색.png"
+                alt="문" onclick="GotoSecretPath()">
+
+                <div class="memoModal" id="memoModal">
+                    <img alt="메모2" id="memoModalImg" src="" style="display: none" onclick="ItemInsert(this); hideModal();">
+                </div>
+            </div>
+        </div>
+    </article>
+    <article id="screen4" style="margin-left: auto; margin-right: auto; display:none;">
+        <div id="div1">
+            <!-- laundryRoomPassword 클릭 시 모달 띄우기 -->
+            <img id="laundryRoomPassword" src="./resources/btnSecret.png"
+                alt="자물쇠" onclick="openPasswordModal()">
+            <!-- basementDoor는 기본적으로 비활성화 상태로 두기 -->
+            <img class="object" id="basementDoor" src="./resources/흰색.png"
+                alt="문" onclick="document.getElementById('screen4').style.display = 'none';
+                document.getElementById('screen5').style.display = 'block';
+                DeleteShirts('hintShirt');"
+                style="pointer-events: none;">
+        </div>
+        <!-- 비밀번호 입력 모달 -->
+        <div id="passwordModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <p>비밀번호를 입력하세요:</p>
+                <input type="text" id="passwordInput" placeholder="암호입력">
+                <button onclick="checkPassword()">확인</button>
+                <button onclick="closePasswordModal()">닫기</button>
+                <p id="passwordAlertMessage" style="color: red;"></p>
+            </div>
+        </div>          
+    </article>
+    <article id="screen5" style="margin-left: auto; margin-right: auto;">
+        <div id="container">
+            <div id="div1">
+                <img class="object" id="toBasement" src="./resources/흰색.png"
+                alt="문" onclick="document.getElementById('screen5').style.display = 'none'; document.getElementById('screen6').style.display = 'block';">
+            </div>        
+        </div>
+    </article>
+    <article id="screen6" style="margin-left: auto; margin-right: auto;">
+        <div id="container">
+            <img class="object" id="note" src="./resources/흰색.png"
+            alt="쪽지" onclick="ItemInsert({id: 'note', alt: '쪽지'}); this.style.display = 'none';">
+            <img id="toEntrance" src="./resources/btnEscape.png"
+            alt="문" onclick="document.getElementById('screen6').style.display = 'none'; document.getElementById('screen7').style.display = 'block';">
+        </div>        
+    </article>
+    <article id="screen7" style="margin-left: auto; margin-right: auto; display:none;">
+        <div id="container">
+            <img class="object" id="entranceLock" src="./resources/흰색.png"
+            alt="자물쇠" onclick="dialLock(this)">
+            <img id="dialLockBackground" src="./resources/흰색.png">
+            <div id="dialLockModal">
+                <iframe id=dialLock src="DialLock.html"></iframe>
+                <button id='dialLockCloseButton' onclick="closeLock()">
+                    <img src="./resources/닫기.png">
+                </button>
+            </div>
+            <img class="object" id="entranceDoor" src="./resources/흰색.png"
+            alt="문" onclick="
+            document.getElementById('itembox').style.display = 'none';
+            document.getElementById('screen7').style.display = 'none';
+            document.getElementById('screen8').style.display = 'block';
+            document.getElementById('timer').style.display = 'none';">
+        </div>
+    </article>
+    <article id="screen8" style="margin-left: auto; margin-right: auto; display:none;">
+    </article>
+    <article id="screen9" style="margin-left: auto; margin-right: auto; display:none;">
+    </article>
+</body>
+</html>
